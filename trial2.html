@@ -1,0 +1,116 @@
+<html>
+<head>
+<h1 align="center"><img src="Kinect.jpg"><br>
+<img src="DLSU logo.png"><br></h1>
+<script src="math.js" type="text/javascript"></script>
+</head>
+<body>
+<body background="qq.jpg">
+
+<p id="al" align="center"></p>
+<p id="bl" align="center"></p>
+<p id="sl" align="center"></p>
+<p id="cl" align="center"></p>
+<p id="wl" align="center"></p>
+<p id="hl" align="center"></p>
+<script type="text/javascript"">
+ var params = location.search.substring(1).split("&");
+ var val = params[0].split("="); //arm length
+ var val2 = params[1].split("=");//body length
+ var val3 = params[2].split("=");//shoulder length
+ var val4 = params[3].split("=");//chest length (front)
+ var val5 = params[4].split("=");//chest length(diagonal)
+ var val6 = params[5].split("=");//waist length(front)
+ var val7 = params[6].split("=");//waist length(diagonal)
+ var val8 = params[7].split("=");//hips length(front)
+ var val9 = params[8].split("=");//hips length(diagonal)
+ var x = val4[1];
+ var hx = val5[1];
+ var y = val6[1];
+ var hy = val7[1];
+ var z = val8[1];
+ var hz = val9[1];
+ var a;
+ var q = 0;
+ var cl1, cl2, cl3, cl4, wl1, wl2, wl3, wl4, hl1, hl2, hl3, hl4;
+var cltot, wltot, hltot;
+var xsmal = 0;
+var small = 0;
+var med = 0;
+var large = 0;
+var xlar = 0;
+var xp, yp, zp;
+//var u1 = Math.asinh(2*(q-val4[1]/2)*a);
+//var u2 = Math.sqrt(4*a*a*(q-x/2)
+
+
+
+//calculating the chest
+xp = Math.sqrt(hx*hx-x*x);
+a = ((4*xp)/(x*x));
+//var u1 = Math.asinh(2*((q-val4[1])/2)*a);
+cl1 = (Math.asinh(2*(q-(x/2))*a))/(4*a);
+cl2 = (Math.sqrt((4*a*a)*(q-(x/2))*(q-(x/2)) + 1))*(q-(x/2))*(0.5);
+cl3 = (Math.asinh(2*(x-(x/2))*a))/(4*a);
+cl4 = (Math.sqrt((4*a*a)*(x-(x/2))*(x-(x/2)) + 1))*(x-(x/2))*(0.5);
+cltot = (cl3 + cl4 - (cl1+cl2) + 2*val4[1] + 2*val4[1])/2;
+
+//calculating the waist
+yp = Math.sqrt(hy*hy-y*y);
+a = (4*yp)/(y*y);
+wl1 = (Math.asinh(2*(q-y/2)*a))/(4*a);
+wl2 = (Math.sqrt(4*a*a*(q-y/2)*(q-y/2) + 1))*(q-y/2)*(0.5);
+wl3 = (Math.asinh(2*(y-y/2)*a))/(4*a);
+wl4 = (Math.sqrt(4*a*a*(y-y/2)*(y-y/2) + 1))*(y-y/2)*(0.5);
+wltot = (wl3 + wl4 - (wl1+wl2) + 2*yp + 2*y)/2;
+
+//calculating the hips
+zp = Math.sqrt(hz*hz-z*z);
+a = (4*zp)/(z*z);
+hl1 = (Math.asinh(2*(q-z/2)*a))/(4*a);
+hl2 = (Math.sqrt(4*a*a*(q-z/2)*(q-z/2) + 1))*(q-z/2)*(0.5);
+hl3 = (Math.asinh(2*(z-z/2)*a))/(4*a);
+hl4 = (Math.sqrt(4*a*a*(z-z/2)*(z-z/2) + 1))*(z-z/2)*(0.5);
+hltot = (hl3 + hl4 - (hl1+hl2) + 2*zp + 2*z)/2;
+
+
+document.getElementById("al").innerHTML="Arm length = " + val[1]
+document.getElementById("bl").innerHTML="Body length = " + val2[1]
+document.getElementById("sl").innerHTML="Shoulder Length = " + val3[1]
+document.getElementById("cl").innerHTML="Chest length = " + cltot
+document.getElementById("wl").innerHTML="Waist length = " + wltot
+document.getElementById("hl").innerHTML="Hips length = " + hltot
+
+
+
+
+
+if (val[1] <= 21.5){
+	xsmal = xsmal + 1;
+	document.write('<div style="text-align:center">Sample <br><a href="huehue.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+}else if (21.5 < val[1] && val[1] <= 22.5){
+	small = small + 1;
+	document.write('<a href="huehara.jpg" download><img src="huehara.jpg"></a>')
+}else if (22.5 < val[1] && val[1] <= 23.5){
+	med = med + 1;
+	document.write('<a href="bilog.jpg" download><img src="bilog.jpg"></a>')
+}else if (23.5 < val[1] && val[1] <= 24.5){
+	large = large + 1;
+	document.write('<a href="palaka.jpg" download><img src="palaka.jpg"></a>')
+}else if (24.5 < val[1] && val[1] <= 25.5){
+	xlar = xlar + 1;
+	document.write('<a href="spoderman.png" download><img src="palaka.jpg"></a>')
+}
+
+if (val2[1]<=10){
+	document.write('<div style="text-align:center">Sample <br><a href="spoderman.png" download><img src="palaka.jpg"></a></div>')
+	
+}
+
+
+</script>
+
+
+
+</body>
+</html>

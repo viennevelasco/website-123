@@ -1,0 +1,251 @@
+<html>
+<head>
+<h1 align="center"><img src="Kinect.jpg"><br>
+<img src="DLSU logo.png"><br></h1>
+<script src="math.js" type="text/javascript"></script>
+</head>
+<body>
+<body background="qq.jpg">
+
+<p id="al" align="center"></p>
+<p id="bl" align="center"></p>
+<p id="sl" align="center"></p>
+<p id="cl" align="center"></p>
+<p id="wl" align="center"></p>
+<p id="hl" align="center"></p>
+<p id="act" align="center"></p>
+
+
+
+<script type="text/javascript"">
+ var params = location.search.substring(1).split("&");
+ var val = params[0].split("="); //arm length
+ var val2 = params[1].split("=");//body length
+ var val3 = params[2].split("=");//shoulder length
+ var val4 = params[3].split("=");//chest length (front)
+ var val5 = params[4].split("=");//chest length(side)
+ var val6 = params[5].split("=");//waist length(front)
+ var val7 = params[6].split("=");//waist length(side)
+ var val8 = params[7].split("=");//hips length(front)
+ var val9 = params[8].split("=");//hips length(side)
+ var x = val4[1];
+ var xp = val5[1];
+ var y = val6[1];
+ var yp = val7[1];
+ var z = val8[1];
+ var zp = val9[1];
+ var a;
+ var q = 0;
+ var cl1, cl2, cl3, cl4, wl1, wl2, wl3, wl4, hl1, hl2, hl3, hl4;
+var cltot, wltot, hltot;
+var xp, yp, zp;
+var bodmax, bodsize, shoulsize, actsize;
+var i, j;
+var size = [[0, 16, 21.5, 26, 41],[1, 17, 22.5, 29, 43],[2, 18, 23.5, 30, 45],[3, 19, 24.5, 31, 47],[4, 20, 25.5, 32, 49]];
+var vala, valb, vals;
+vala = 2.77755102 + val[1];
+valb = 2.853571429 + val2[1];
+vals = val3[1] - 2.034693878;
+
+
+
+
+//document.write(size[4][4])
+
+
+
+//document.write(size)
+
+//var u1 = Math.asinh(2*(q-val4[1]/2)*a);
+//var u2 = Math.sqrt(4*a*a*(q-x/2)
+
+
+
+//calculating the chest
+//xp = Math.sqrt(hx*hx-x*x);
+a = ((4*xp)/(x*x));
+//var u1 = Math.asinh(2*((q-val4[1])/2)*a);
+cl1 = Math.asinh(2*(q-x/2)*a)/(4*a);
+cl2 = (Math.sqrt(4*a*a*(q-x/2)*(q-x/2) + 1)*(q-x/2))*(0.5);
+cl3 = (Math.asinh(2*(x-x/2)*a))/(4*a);
+cl4 = (Math.sqrt(4*a*a*(x-x/2)*(x-x/2) + 1)*(x-x/2))*(0.5);
+cltot =  ( cl3 + cl4 - (cl1 + cl2) + 2*xp + 2*x)/2;
+
+//calculating the waist
+//yp = Math.sqrt(hy*hy-y*y);
+a = (4*yp)/(y*y);
+wl1 = (Math.asinh(2*(q-y/2)*a))/(4*a);
+wl2 = (Math.sqrt(4*a*a*(q-y/2)*(q-y/2) + 1)*(q-y/2))*(0.5);
+wl3 = (Math.asinh(2*(y-y/2)*a))/(4*a);
+wl4 = (Math.sqrt(4*a*a*(y-y/2)*(y-y/2) + 1))*(y-y/2)*(0.5);
+wltot = 1.5962109965 + ((wl3 + wl4 - (wl1+wl2) + 2*yp + 2*y)/2);
+
+//calculating the hips
+//zp = Math.sqrt(hz*hz-z*z);
+a = (4*zp)/(z*z);
+hl1 = (Math.asinh(2*(q-z/2)*a))/(4*a);
+hl2 = (Math.sqrt(4*a*a*(q-z/2)*(q-z/2) + 1))*(q-z/2)*(0.5);
+hl3 = (Math.asinh(2*(z-z/2)*a))/(4*a);
+hl4 = (Math.sqrt(4*a*a*(z-z/2)*(z-z/2) + 1))*(z-z/2)*(0.5);
+hltot = 2.97559916 + ((hl3 + hl4 - (hl1+hl2) + 2*zp + 2*z)/2);
+
+
+document.getElementById("al").innerHTML="Arm length = " + vala
+document.getElementById("bl").innerHTML="Body length = " + valb
+document.getElementById("sl").innerHTML="Shoulder Length = " + vals
+document.getElementById("cl").innerHTML="Chest length = " + cltot
+document.getElementById("wl").innerHTML="Waist length = " + wltot
+document.getElementById("hl").innerHTML="Hips length = " + hltot
+document.getElementById("www").innerHTML="S.jpg"
+
+ 
+//document.write('<div style="text-align:center">Sample <br><a href="barong.jpg" style="text-align:center" download><img src="barong.jpg"></a></div>')
+bodmax = Math.max(cltot,wltot,hltot);
+
+	if(vals < 17){
+	actsize = size[0];
+	}
+	else if(17 <= vals && vals < 18){
+	actsize = size[1];	
+	}
+	else if(18 <= vals && vals < 19){
+	actsize = size[2];	
+	}
+	else if(19 <= vals && vals <20){
+	actsize = size[3];	
+	}
+	else if(20 <= vals){
+	actsize = size[4]	
+	}
+	
+	
+	function search(ac){
+		return ac > actsize(4)
+	}
+	
+	if(bodmax < actsize[4]){
+		document.getElementById("act").innerHTML="Your size is: " + actsize[0]
+	}
+	else if(bodmax >= 49){
+		document.write("We are sorry that there is no barong that will fit you")
+	}
+	else if (bodmax >= actsize[4]){
+		while(1){
+			i = actsize[0] + 1
+			actsize = size[i]
+			if(bodmax < actsize[4]){
+				break;
+			}
+		}	
+		document.getElementById("act").innerHTML="Your size is: " + actsize[0]
+	}
+	
+	/*
+	if(actsize[0] == 0){
+		document.write(<div style="text-align:center">Click picture to download <br><a href="XS.jpg" style="text-align:center" download><img src="XS.jpg"></a></div>)
+	}
+	else if(actsize[0] == 1){
+		document.write(<div style="text-align:center">Click picture to download <br><a href="S.jpg" style="text-align:center" download><img src="S.jpg"></a></div>)
+	}
+	else if(actsize[0] == 2){
+		document.write(<div style="text-align:center">Click picture to download <br><a href="M.jpg" style="text-align:center" download><img src="M.jpg"></a></div>)
+	}
+	else if(actsize[0] == 3){
+		document.write(<div style="text-align:center">Click picture to download <br><a href="L.jpg" style="text-align:center" download><img src="L.jpg"></a></div>)
+	}
+	else if(actsize[0] == 4){
+		document.write(<div style="text-align:center">Click picture to download <br><a href="XL.jpg" style="text-align:center" download><img src="XL.jpg"></a></div>)
+	}
+	*/
+
+
+
+	//if (bodmax <= 20.5){//xs
+		//document.write('<div style="text-align:center">Sample <br><a href="huehuew.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+	//	bodsize = 20.5;
+	//}else if (20.5 < bodmax && bodmax <= 21.5){//small
+		//document.write('<div style="text-align:center">Sample <br><a href="huehara.jpg" style="text-align:center" download><img src="huehara.jpg"></a></div>')
+	//	bodsize = 21.5;
+	//}else if (21.5 < bodmax && bodmax <= 22.5){//medium
+		//document.write('<div style="text-align:center">Sample <br><a href="bilog.jpg" style="text-align:center" download><img src="bilog.jpg"></a></div>')
+	//	bodsize = 22.5;
+	//}else if (22.5 < bodmax && bodmax <= 23.5){//large
+		//document.write('<div style="text-align:center">Sample <br><a href="palaka.jpg" style="text-align:center" download><img src="palaka.jpg"></a></div>')
+	//	bodsize = 23.5;
+	//}else if (23.5 < bodmax <= 24.5){//xlarge
+		//document.write('<div style="text-align:center">Sample <br><a href="huehue.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+	//	bodsize = 24.5;
+	//}
+	
+
+	//if (val3[1] <= 16){//xs
+	//	shoulsize = 20.5;
+		//document.write('<div style="text-align:center">Sample <br><a href="huehue.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+	//}else if (16 < val3[1] && val3[1] <= 17){//small
+	//	shoulsize = 21.5;
+		//document.write('<div style="text-align:center">Sample <br><a href="huehara.jpg" style="text-align:center" download><img src="huehara.jpg"></a></div>')
+	//}else if (17 < val3[1] && val3[1] <= 18){//medium
+	//	shoulsize = 22.5;
+		//document.write('<div style="text-align:center">Sample <br><a href="bilog.jpg" style="text-align:center" download><img src="bilog.jpg"></a></div>')
+	//}else if (19 < val3[1] && val3[1] <= 20){//large
+	//	shoulsize = 23.5;
+		//document.write('<div style="text-align:center">Sample <br><a href="palaka.jpg" style="text-align:center" download><img src="palaka.jpg"></a></div>')		
+	//}else if (20 < val3[1] <= 21){//xlarge
+	//	shoulsize = 24.5;
+		//document.write('<div style="text-align:center">Sample <br><a href="huehue.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+	//}
+
+	//if (bodmax > val3[1]) {
+	//	if (bodmax <= 20.5){//xs
+	//	document.write('<div style="text-align:center">Sample <br><a href="huehuew.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+		
+	//}else if (20.5 < bodmax && bodmax <= 21.5){//small
+	//	document.write('<div style="text-align:center">Sample <br><a href="huehara.jpg" style="text-align:center" download><img src="huehara.jpg"></a></div>')
+		
+	//}else if (21.5 < bodmax && bodmax <= 22.5){//medium
+	//	document.write('<div style="text-align:center">Sample <br><a href="bilog.jpg" style="text-align:center" download><img src="bilog.jpg"></a></div>')
+	
+	//}else if (22.5 < bodmax && bodmax <= 23.5){//large
+	//	document.write('<div style="text-align:center">Sample <br><a href="palaka.jpg" style="text-align:center" download><img src="palaka.jpg"></a></div>')
+		
+	//}else if (23.5 < bodmax <= 24.5){//xlarge
+	//	document.write('<div style="text-align:center">Sample <br><a href="huehue.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+		
+	//}
+		
+	//}
+
+
+//
+
+
+
+//if (val[1] <= 21.5){
+//	xsmal = xsmal + 1;
+//	document.write('<div style="text-align:center">Sample <br><a href="huehue.jpg" style="text-align:center" download><img src="huehue.jpg"></a></div>')
+//}else if (21.5 < val[1] && val[1] <= 22.5){
+//	small = small + 1;
+//	document.write('<a href="huehara.jpg" download><img src="huehara.jpg"></a>')
+//}else if (22.5 < val[1] && val[1] <= 23.5){
+//	med = med + 1;
+//	document.write('<a href="bilog.jpg" download><img src="bilog.jpg"></a>')
+//}else if (23.5 < val[1] && val[1] <= 24.5){
+//	large = large + 1;
+//	document.write('<a href="palaka.jpg" download><img src="palaka.jpg"></a>')
+//}else if (24.5 < val[1] && val[1] <= 25.5){
+//	xlar = xlar + 1;
+//	document.write('<a href="spoderman.png" download><img src="palaka.jpg"></a>')
+//}
+
+//if (val2[1]<=10){
+//	document.write('<div style="text-align:center">Sample <br><a href="spoderman.png" download><img src="palaka.jpg"></a></div>')
+	
+//}
+
+
+</script>
+
+
+
+</body>
+</html>
